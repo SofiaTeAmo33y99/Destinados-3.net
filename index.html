@@ -3,596 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Sofi, mi Princesita</title>
-    <!-- Script de Tailwind CSS -->
+    <title>Para Mi Princesita Sofi</title>
+    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
+    <!-- Carga de la fuente Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Dancing+Script:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
     
+    <!-- Estilos personalizados para animaciones y efectos -->
     <style>
-        /* Estilos personalizados */
         body {
+            /* Fuente principal */
             font-family: 'Inter', sans-serif;
-            background-color: #000010; /* Fondo universo oscuro */
-            color: #f0f0f0;
-            overflow-x: hidden; /* Evita scroll horizontal */
+            /* Evita el desbordamiento horizontal por las animaciones */
+            overflow-x: hidden;
         }
 
-        /* --- Pantalla de Carga --- */
-        #loader-overlay {
+        /* --- Sección 1: Fondo de Universo y Cometas --- */
+        #universe-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000010; /* Mismo fondo que el body */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: opacity 1s ease, visibility 1s ease;
-            opacity: 1;
-            visibility: visible;
+            background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+            z-index: -2;
         }
-        #loader-overlay.hidden {
+
+        #stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 130px 80px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 20% 30%, #eee, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 40% 70%, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 50% 60%, #ddd, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 90% 40%, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 30% 80%, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 60% 20%, #ddd, rgba(0, 0, 0, 0));
+            background-size: 200px 200px, 200px 200px, 200px 200px, 200px 200px, 200px 200px, 200px 200px, 100vw 100vh, 100vw 100vh, 100vw 100vh, 100vw 100vh, 100vw 100vh, 100vw 100vh;
+            animation: twinkle 10s linear infinite;
+        }
+
+        @keyframes twinkle {
+            from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+            to { background-position: -200px 200px, -200px 200px, -200px 200px, -200px 200px, -200px 200px, -200px 200px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+        }
+
+        .comet {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px #fff, 0 0 20px 5px #fff, 0 0 30px 10px #00bfff;
             opacity: 0;
-            visibility: hidden;
-        }
-        #loading-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 90%;
-            max-width: 400px;
-        }
-        .loader-heart {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            color: #ff89b4;
-            text-shadow: 0 0 10px #ff89b4;
-            white-space: nowrap;
-        }
-        #loading-thread-container {
-            width: 100%;
-            height: 6px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            margin: 0 15px;
-            overflow: hidden;
-        }
-        #loading-thread {
-            width: 0%;
-            height: 100%;
-            background: #ff0000;
-            box-shadow: 0 0 10px #ff0000;
-            border-radius: 3px;
-            /* Duración de 3s */
-            animation: load-thread-anim 3s ease-out forwards; 
-        }
-        @keyframes load-thread-anim {
-            from { width: 0%; }
-            to { width: 100%; }
+            animation: comet-fall 10s linear infinite;
         }
 
-        /* Canvas para el fondo de estrellas y cometas */
-        #starfield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -10; /* Detrás de todo */
-        }
-
-        /* Fuente especial para títulos y la carta */
-        .font-cursive {
-            font-family: 'Dancing Script', cursive;
-            /* Efecto de brillo universal */
-            animation: textGlow 3s ease-in-out infinite;
-        }
-        @keyframes textGlow {
-            0%, 100% { text-shadow: 0 0 15px #ff89b4; }
-            50% { text-shadow: 0 0 30px #ff89b4, 0 0 10px #ffffff; }
-        }
-
-        /* Estilo de la carta astral / carta vieja */
-        .carta-vieja {
-            background-color: #f3e9d2; /* Color pergamino */
-            color: #4a2c0f;
-            border: 1px solid #d4bda1;
-            box-shadow: 
-                0 0 20px rgba(0,0,0,0.5), /* Sombra exterior */
-                inset 0 0 30px #8a6c4a; /* Sombra interior (efecto quemado) */
-            filter: sepia(0.2) contrast(1.1);
-            transition: all 0.3s ease;
-        }
-        .carta-vieja:hover {
-            transform: scale(1.02) rotate(-1deg);
-        }
-
-        /* Estilo para items clickeables */
-        .love-item {
-            transition: all 0.2s ease-out;
-            cursor: pointer;
-            text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
-        }
-        .love-item:hover {
-            transform: scale(1.05);
-            color: #ff89b4;
-        }
-
-        /* Estilo para promesas clickeables */
-        .promise-item {
-            transition: all 0.2s ease-out;
-            cursor: pointer;
-        }
-        .promise-item:hover {
-            transform: scale(1.03);
-            color: #ffc8dd; /* Rosa más pálido al pasar el ratón */
-            text-shadow: 0 0 8px #ffc8dd;
-        }
-
-        /* Corazón/Estrella flotante para el efecto de click */
-        .floating-heart {
-            position: absolute;
-            font-size: 2rem;
-            color: #ff1a75;
-            animation: floatUp 1.5s ease-out forwards;
-            pointer-events: none;
-            text-shadow: 0 0 10px #ff1a75;
-        }
-        
-        /* NUEVO: Texto flotante para estrellas */
-        .floating-text {
-            position: absolute;
-            font-size: 1.2rem;
-            font-family: 'Dancing Script', cursive;
-            color: #ffc8dd;
-            text-shadow: 0 0 8px #ffc8dd;
-            animation: floatUp 2s ease-out forwards; /* 2s duration */
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        @keyframes floatUp {
+        @keyframes comet-fall {
             0% {
+                transform: translate(0, 0) rotate(20deg);
+                opacity: 0;
+            }
+            10% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
             }
             100% {
+                transform: translate(-100vw, 100vh) rotate(20deg);
                 opacity: 0;
-                transform: translateY(-80px) scale(0.5);
             }
         }
+        /* Múltiples cometas con diferentes retrasos y posiciones */
+        .comet:nth-child(1) { top: 10%; left: 100%; animation-delay: 0s; }
+        .comet:nth-child(2) { top: 30%; left: 120%; animation-delay: 2s; }
+        .comet:nth-child(3) { top: -10%; left: 90%; animation-delay: 4s; }
+        .comet:nth-child(4) { top: 50%; left: 150%; animation-delay: 7s; }
+        .comet:nth-child(5) { top: 0%; left: 110%; animation-delay: 9s; }
 
-        /* Estilo para la promesa oculta */
-        .hidden-promise {
-            background-color: #374151;
-            color: #374151;
-            border-radius: 4px;
-            cursor: pointer;
+        /* --- Sección 2: Carta Astral --- */
+        .astral-card {
+            font-family: 'Special Elite', cursive; /* Fuente tipo máquina de escribir */
+            background: #fdf5e6; /* Color pergamino */
+            color: #4a2c2a; /* Texto marrón oscuro */
+            border: 2px solid #8a4d2f; /* Borde marrón */
+            border-radius: 10px;
+            /* Sombra para efecto "quemado" y de relieve */
+            box-shadow: 
+                0 0 15px 5px rgba(0, 0, 0, 0.4), /* Sombra exterior */
+                inset 0 0 25px 10px rgba(165, 42, 42, 0.3), /* Sombra interior "quemada" */
+                inset 0 0 50px 20px rgba(245, 222, 179, 0.5); /* Brillo interior de pergamino */
             transition: all 0.3s ease;
-            user-select: none;
         }
-        .hidden-promise:hover {
-            background-color: #4b5563;
-            color: #4b5563;
-        }
-        .revealed {
-            background-color: transparent;
-            color: #ff89b4;
-            font-weight: bold;
-            text-shadow: 0 0 10px #ff1a75;
+        .astral-card:hover {
+            transform: rotate(-1deg) scale(1.02);
+            box-shadow: 
+                0 0 25px 10px rgba(0, 0, 0, 0.5),
+                inset 0 0 30px 12px rgba(165, 42, 42, 0.4),
+                inset 0 0 60px 25px rgba(245, 222, 179, 0.6);
         }
 
-        /* Estilos para los Corazones y Hilo Rojo */
-        .heart-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: filter 1s ease-out;
+        /* --- Sección 3 y 4: Listas de Amor y Promesas --- */
+        .love-list li, .promise-list li {
+            background: rgba(255, 105, 180, 0.1); /* Fondo rosa translúcido */
+            border: 1px solid rgba(255, 105, 180, 0.7); /* Borde rosa */
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        .heart-container.destiny-flash {
-            animation: destiny-flash-anim 1s ease-out;
-        }
-        @keyframes destiny-flash-anim {
-            0% { filter: brightness(1); }
-            50% { filter: brightness(3) saturate(2); }
-            100% { filter: brightness(1); }
-        }
-        
-        .css-heart {
-            position: relative;
-            width: 200px;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: heartbeat 1.5s ease-in-out infinite;
-            transition: filter 0.5s ease, transform 0.5s ease;
-        }
-        .css-heart::before,
-        .css-heart::after {
-            content: "";
-            position: absolute;
-            left: 100px;
-            top: 0;
-            width: 100px;
-            height: 160px;
-            background: #ff1a75;
-            border-radius: 50px 50px 0 0;
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-            box-shadow: 0 0 30px #ff1a75;
-            transition: box-shadow 0.5s ease;
-        }
-        .css-heart::after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
-        }
-        .heart-text {
-            position: relative;
-            z-index: 10;
-            color: white;
-            font-size: 1.25rem;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-        
-        .mini-heart {
-            position: absolute;
-            color: #ff89b4;
-            animation: miniHeartBeat 2s ease infinite;
-            font-size: 1rem;
-            opacity: 0.7;
-        }
-        @keyframes miniHeartBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
+        .love-list li:hover, .promise-list li:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4;
+            background: rgba(255, 105, 180, 0.2);
         }
 
+        /* Animación de pulso al hacer clic */
+        .pulse-effect {
+            animation: pulse-pink 0.5s ease;
+        }
+        @keyframes pulse-pink {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px 10px #ff69b4; }
+            100% { transform: scale(1); }
+        }
+
+        /* Estilo para el botón de revelar sorpresa */
+        #reveal-surprise {
+            cursor: pointer;
+            font-style: italic;
+            color: #f8bbd0;
+            text-decoration: underline;
+            transition: all 0.2s;
+        }
+        #reveal-surprise:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #ff69b4;
+        }
+        
+        /* --- Sección 5: Dos Corazones --- */
+        .heart-box {
+            font-family: 'Dancing Script', cursive; /* Fuente romántica */
+            font-size: 1.75rem; /* Un poco más grande para los nombres */
+            color: #ffcdd2; /* Texto rosa pálido */
+            background: rgba(226, 43, 75, 0.2);
+            border: 2px solid #e22b4b;
+            backdrop-filter: blur(5px);
+            text-shadow: 0 0 10px #e22b4b;
+            transition: all 0.5s ease; /* Transición para el brillo */
+        }
+        
         /* Hilo Rojo */
-        .red-thread {
-            width: 4px;
-            height: 0; /* Inicia en 0 */
+        #red-thread {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(90deg, #ff0000, #ff4500, #ff0000);
+            box-shadow: 0 0 10px 2px #ff0000;
+            width: 0;
+            /* La transición se aplica desde JS */
+            z-index: 10;
+        }
+
+        /* Flash de luz */
+        #flash-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.9);
             opacity: 0;
-            background: #ff0000;
-            box-shadow: 0 0 10px #ff0000;
-            border-radius: 2px;
-            transition: height 3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 3s ease;
+            pointer-events: none;
+            z-index: 999;
         }
-        .red-thread.connected {
-            height: 120px; /* Más separado */
-            opacity: 1;
+        .flash {
+            animation: flash-bang 1s ease-out;
         }
-        
-        /* Efecto de brillo en corazones */
-        .css-heart.glowing {
-            filter: drop-shadow(0 0 20px #ff1a75) drop-shadow(0 0 10px #ffffff);
-            animation: strong-heartbeat 1s ease-in-out infinite, heart-jump 0.5s ease-out;
-        }
-        @keyframes heart-jump {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2) rotate(3deg); }
-            100% { transform: scale(1); }
-        }
-        @keyframes strong-heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @keyframes flash-bang {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
 
-        /* Botón de Amarre */
-        #amarre-btn {
-            background-color: #db2777;
-            color: white;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            box-shadow: 0 0 20px #db2777;
-            transition: all 0.3s ease;
+        /* Brillo de corazones */
+        .glow {
+            animation: heart-glow 2s infinite alternate;
         }
-        #amarre-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px #db2777, 0 0 15px #ff89b4;
+        @keyframes heart-glow {
+            from {
+                box-shadow: 0 0 10px #e22b4b, 0 0 20px #e22b4b;
+                text-shadow: 0 0 15px #ffcdd2;
+            }
+            to {
+                transform: scale(1.05); /* Ligeramente más grande al brillar */
+                box-shadow: 0 0 20px 10px #ff1a40, 0 0 40px 15px #e22b4a;
+                text-shadow: 0 0 25px #fff;
+            }
         }
-        #amarre-btn:disabled {
-            background-color: #9d174d;
-            cursor: not-allowed;
-            opacity: 0.7;
-            box-shadow: none;
-        }
-
-        /* --- Animación Espacial CSS (SECCIÓN MODIFICADA) --- */
+        
+        /* --- Sección 6: Espacio Interactivo --- */
         #space-container {
             position: relative;
-            width: 100%;
-            max-width: 600px;
             height: 500px;
-            margin: auto;
-            border-radius: 16px;
-            background: #000010;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(100, 150, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .celestial-body {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .celestial-body:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
         }
 
         #sun {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100px;
-            height: 100px;
-            margin-top: -50px;
-            margin-left: -50px;
-            background: radial-gradient(circle, #ffd700, #ff8c00, #ff4500);
-            border-radius: 50%;
-            box-shadow: 0 0 60px #ffd700, 0 0 100px #ff8c00;
-            cursor: pointer;
-            animation: sun-pulse 4s ease-in-out infinite;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(ellipse at center, #fdfd8d 0%, #f9a602 60%, #f08c00 100%);
+            box-shadow: 0 0 30px 10px #f9a602, 0 0 50px 20px rgba(240, 140, 0, 0.5);
+            top: 40px;
+            left: 40px;
+            animation: pulse-sun 5s infinite alternate;
         }
-        @keyframes sun-pulse {
-            0%, 100% { box-shadow: 0 0 60px #ffd700, 0 0 100px #ff8c00; transform: scale(1); }
-            50% { box-shadow: 0 0 80px #fff8de, 0 0 120px #ff4500; transform: scale(1.05); }
+        @keyframes pulse-sun {
+            from { box-shadow: 0 0 30px 10px #f9a602, 0 0 50px 20px rgba(240, 140, 0, 0.5); }
+            to { box-shadow: 0 0 40px 15px #f9a602, 0 0 60px 25px rgba(240, 140, 0, 0.7); }
         }
 
-        /* Órbita de la Tierra */
-        #earth-orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 400px;
-            margin-top: -200px;
-            margin-left: -200px;
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            animation: spin 30s linear infinite;
-        }
-
-        /* TIERRA (MODIFICADA) */
         #earth {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            margin-left: -25px;
-            width: 50px;
-            height: 50px;
-            /* Océano realista */
-            background: radial-gradient(circle at 30% 30%, #a9d7f6, #3498db 50%, #1e5a8c 100%);
-            border-radius: 50%;
-            /* Atmósfera */
-            box-shadow: 0 0 20px #3498db;
-            cursor: pointer;
-            animation: spin-reverse 30s linear infinite;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(ellipse at center, #6b93d6 0%, #3b5998 70%, #192f6a 100%);
+            box-shadow: 0 0 20px 5px #6b93d6, inset 0 0 10px rgba(255,255,255,0.3);
+            top: 200px;
+            right: 100px;
+            /* Contenedor para el hilo */
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Oculta nubes/hilo que se salen */
         }
-        
-        /* NUBES (NUEVO) */
-        #earth::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            /* Capa de nubes */
-            background: radial-gradient(circle at 20% 40%, rgba(255,255,255,0.6) 5%, transparent 30%),
-                        radial-gradient(circle at 55% 60%, rgba(255,255,255,0.5) 8%, transparent 40%);
-            /* Gira un poco más rápido que la tierra */
-            animation: spin-reverse 25s linear infinite;
-            z-index: 1;
-        }
-
-        /* HILO ROJO (MODIFICADO) */
+        /* "Continente" verde */
         #earth::after {
             content: '';
             position: absolute;
-            width: 70%;
-            height: 70%;
-            border-bottom: 2px solid #ff0000;
-            box-shadow: 0 0 5px #ff0000;
-            border-radius: 0 0 50% 50% / 0 0 100% 100%;
-            transform: translateY(5px) rotate(15deg);
-            z-index: 2; /* Encima de las nubes */
+            width: 40%;
+            height: 50%;
+            background: #2e8b57;
+            border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%;
+            opacity: 0.7;
+            transform: rotate(20deg);
         }
 
-        /* Órbita de la Luna */
-        #moon-orbit {
+        /* Hilo rojo en la Tierra */
+        #earth-thread-svg {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80px;
-            height: 80px;
-            margin-top: -40px;
-            margin-left: -40px;
-            border-radius: 50%;
-            animation: spin 5s linear infinite;
-            z-index: 3; /* Encima de todo en la tierra */
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        #earth-thread-path {
+            stroke: #ff0000;
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 3px #ff0000);
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw-earth-thread 3s 1s forwards ease-in-out;
+        }
+        @keyframes draw-earth-thread {
+            to {
+                stroke-dashoffset: 0;
+            }
         }
 
         #moon {
-            position: absolute;
-            top: -7px;
-            left: 50%;
-            margin-left: -7px;
-            width: 14px;
-            height: 14px;
-            background: #bdc3c7;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #ffffff;
-            cursor: pointer;
-        }
-        
-        /* Cinturón de Asteroides */
-        #asteroid-orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 500px;
-            height: 500px;
-            margin-top: -250px;
-            margin-left: -250px;
-            border-radius: 50%;
-            animation: spin 45s linear infinite;
-        }
-        .asteroid {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background-color: #966F33;
-            border-radius: 50%;
-        }
-        
-        /* Cometa */
-        #comet {
-            position: absolute;
-            width: 150px;
-            height: 3px;
-            background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-            border-radius: 50%;
-            top: 20%;
-            left: -150px;
-            transform: rotate(-20deg);
-            animation: streak 8s linear infinite;
-            animation-delay: 2s;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(ellipse at center, #f0f0f0 0%, #c0c0c0 70%, #808080 100%);
+            box-shadow: 0 0 15px 2px #f0f0f0;
+            top: 350px;
+            left: 150px;
         }
 
-        /* ESTRELLAS INTERACTIVAS (NUEVO) */
-        .interactive-star {
+        #info-box {
             position: absolute;
-            width: 5px;
-            height: 5px;
-            background-color: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px white, 0 0 5px white;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            animation: twinkle 3s linear infinite;
-            z-index: 5;
-        }
-        .interactive-star:hover {
-            transform: scale(2.5);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes spin-reverse {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(-360deg); }
-        }
-        
-        /* Modal de Información */
-        #info-modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        #info-modal.hidden {
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #eee;
             opacity: 0;
             visibility: hidden;
+            transition: all 0.4s ease;
         }
+        #info-box.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #info-box h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #ffb3d9;
+            margin-bottom: 0.5rem;
+        }
+
     </style>
 </head>
-<body class="bg-gray-900 text-white leading-relaxed">
+<body class="text-white">
 
-    <!-- Pantalla de Carga -->
-    <div id="loader-overlay">
-        <div id="loading-container">
-            <span class="loader-heart">lauty³³ ♥</span>
-            <div id="loading-thread-container">
-                <div id="loading-thread"></div>
-            </div>
-            <span class="loader-heart">♥ sofi⁹⁹</span>
-        </div>
-        <p class="font-cursive text-white text-2xl mt-6">Conectando nuestros corazones...</p>
+    <!-- Contenedor del Fondo de Universo y Cometas -->
+    <div id="universe-bg">
+        <div id="stars"></div>
+        <div class="comet"></div>
+        <div class="comet"></div>
+        <div class="comet"></div>
+        <div class="comet"></div>
+        <div class="comet"></div>
     </div>
 
-    <!-- Canvas de fondo -->
-    <canvas id="starfield"></canvas>
+    <!-- Contenido Principal -->
+    <main class="relative z-10 flex flex-col items-center w-full min-h-screen px-4 py-12 md:px-8">
 
-    <!-- Contenido de la página -->
-    <div class="relative z-10 min-h-screen p-4 md:p-8">
-        
-        <!-- Encabezado Hero -->
-        <header class="text-center py-24 min-h-screen flex flex-col justify-center items-center">
-            <h1 class="font-cursive text-6xl md:text-8xl font-bold text-white">
-                Para Mi Princesita Sofi
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-300 mt-4">
-                Una página para recordarte lo mucho que te amo.
-            </p>
-        </header>
+        <!-- TÍTULO AGREGADO -->
+        <h1 class="mb-16 text-5xl font-bold text-center text-pink-200" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 15px #ff69b4, 0 0 25px #ff69b4;">
+            Para mi princesita hermosa Sofi :3
+        </h1>
 
-        <!-- Sección 2: Foto y Carta -->
-        <section class="my-20 max-w-6xl mx-auto p-6 bg-black bg-opacity-30 backdrop-blur-sm rounded-lg shadow-2xl">
-            <div class="flex flex-col md:flex-row gap-8 items-center">
-                
-                <!-- Columna de la Foto -->
-                <div class="w-full md:w-1/3">
+        <div class="w-full max-w-4xl mx-auto space-y-24">
+
+            <!-- Sección 2: Foto y Carta Astral -->
+            <section class="flex flex-col items-center gap-8 md:flex-row md:items-start">
+                <!-- Espacio para la Foto -->
+                <div class="w-full md:w-1/2 flex flex-col items-center">
+                    <p class="mb-2 text-lg italic text-pink-200">Para la princesita más hermosa:</p>
+                    <!-- 
+                        ¡HOLA LAUTARO!
+                        Para cambiar la foto, reemplaza la URL en el 'src' de abajo.
+                        Sube tu foto a un sitio como 'imgur.com' y pega el enlace aquí.
+                        He usado un placeholder de 400x400 como ejemplo.
+                    -->
                     <img 
-                        src="https://placehold.co/600x800/2a003a/ff89b4?text=Pon+aquí+tu+foto+favorita+<3" 
-                        alt="Foto de Sofi" 
-                        class="rounded-lg shadow-xl w-full h-auto object-cover border-4 border-pink-400"
+                        src="https://placehold.co/400x400/302b63/f8bbd0?text=Tu+Foto+Favorita+Aqui" 
+                        alt="Foto de Sofi"
+                        class="object-cover w-full max-w-sm border-4 border-pink-300 rounded-lg shadow-lg shadow-pink-500/30"
+                        onerror="this.src='https://placehold.co/400x400/302b63/f8bbd0?text=Error+al+cargar+imagen'"
                     >
-                    <p class="text-center text-sm text-gray-400 mt-2">PD: Cambia esta imagen editando el archivo :3</p>
                 </div>
 
-                <!-- Columna de la Carta -->
-                <div class="w-full md:w-2/3 flex items-center justify-center p-4">
-                    <div class="carta-vieja p-8 md:p-12 rounded-lg max-w-lg">
-                        <h2 class="font-cursive text-4xl mb-6 text-center">Mi Mensaje Para Vos</h2>
-                        <p class="font-cursive text-2xl md:text-3xl leading-relaxed">
-                            "Esta pagina existe para recordarte, cada dia, Que sos la princesita mas hermosa del mundo y que te amo tal cual como sos y nunca te voy a cambiar, abandonar o tratar mal :3"
-                        </p>
-                    </div>
+                <!-- Carta Astral -->
+                <div class="w-full p-6 md:w-1/2 astral-card">
+                    <h2 class="mb-4 text-2xl font-bold text-center text-amber-900">Un Recordatorio Astral</h2>
+                    <p class="text-lg leading-relaxed">
+                        Esta pagina existe para recordarte, cada dia, Que sos la princesita mas hermosa del mundo y que te amo tal cual como sos y nunca te voy a cambiar, abandonar o tratar mal :3
+                    </p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Sección 3: Cosas que me encantan -->
-        <section class="my-20 max-w-4xl mx-auto text-center p-6">
-            <h2 class="font-cursive text-5xl font-bold mb-10">Cosas Que Me Encantan de Vos</h2>
-            <div id="love-list" class="space-y-6 text-lg md:text-xl text-gray-200">
-                <p class="love-item p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg" onclick="showHeart(event)">"Me encanta tu personalidad es lo mas hermoso que tenes (ademas de tus tetas)"</p>
-                <p class="love-item p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg" onclick="showHeart(event)">"Amo tu caracter, Sos re tierna cuando te enojas por boludeces y aunque no lo creas aveces te hago enojar aproposito sólo para rogarte y decirte muchas veces te amo sin parecer un obsecionado enfermo de la cabeza JAJAJA :3"</p>
-                <p class="love-item p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg" onclick="showHeart(event)">"Me encanta lo linda que salis cuando otros te sacan fotos, Aunque vos no estes de acuerdo para mi salis mas que perfecta y hermosa gorda hermosa"</p>
-            </div>
-        </section>
-        
-        <!-- Sección 4: Promesas -->
-        <section class="my-20 max-w-4xl mx-auto text-center p-6">
-            <h2 class="font-cursive text-5xl font-bold mb-10">Mis Promesas</h2>
-            <div class="space-y-6 text-lg md:text-xl text-gray-200">
-                <p class="promise-item p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg" onclick="showPromiseEffect(event)">"Prometo nunca traicionarte, Sos todo lo que siempre busque en una mujer."</p>
-                <p class="promise-item p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg" onclick="showPromiseEffect(event)">"Prometo no ABANDONARTE, Nunca no soy como las mierdas de personas que te abras cruzado en tu vida corazon"</p>
-                <p class="promise-item p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg" onclick="showPromiseEffect(event)">"Prometo AMARTE y hacerte feliz hasta que mi corazonzito deje de latir (ahre pelicula ya se hacia esto)"</p>
-                <p class="p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-lg">
-                    "Prometo 
-                    <span class="hidden-promise" onclick="revealPromise(this)" title="¡Clic para revelar sorpresa!">(ACABARTE EN TODA LA CONCHA AMOR Y VER COMO SE DESBORDA TODA LA LECHE DE AHI ADENTRO)</span>."
-                    <span class="text-xs text-gray-400 block mt-1">(Clickea la parte oculta :3)</span>
-                </p>
-            </div>
-        </section>
-        
-        <!-- Sección 5: Corazones y Hilo Rojo -->
+            <!-- Sección 3: Cosas que me Encantan -->
+            <section>
+                <h2 class="mb-6 text-3xl font-bold text-center text-pink-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #ff69b4;">Cosas Que Me Encantan de Vos</h2>
+                <ul class="space-y-4 love-list">
+                    <li class="p-4 rounded-lg shadow-lg">
+                        "Me encanta tu personalidad es lo mas hermoso que tenes (ademas de tus tetas)"
+                    </li>
+                    <li class="p-4 rounded-lg shadow-lg">
+                        "Amo tu caracter, Sos re tierna cuando te enojas por boludeces y aunque no lo creas aveces te hago enojar aproposito sólo para rogarte y decirte muchas veces te amo sin parecer un obsecionado enfermo de la cabeza JAJAJA :3"
+                    </li>
+                    <li class="p-4 rounded-lg shadow-lg">
+                        "Me encanta lo linda que salis cuando otros te sacan fotos, Aunque vos no estes de acuerdo para mi salis mas que perfecta y hermosa gorda hermosa"
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Sección 4: Promesas -->
+            <section>
+                <h2 class="mb-6 text-3xl font-bold text-center text-pink-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #ff69b4;">Mis Promesas</h2>
+                <ul class="space-y-4 promise-list">
+                    <li class="p-4 rounded-lg shadow-lg">
+                        "Prometo nunca traicionarte, Sos todo lo que siempre busque en una mujer."
+                    </li>
+                    <li class="p-4 rounded-lg shadow-lg">
+                        "Prometo no ABANDONARTE, Nunca no soy como las mierdas de personas que te abras cruzado en tu vida corazon"
+                    </li>
+                    <li class="p-4 rounded-lg shadow-lg">
+                        "Prometo AMARTE y hacerte feliz hasta que mi corazonzito deje de latir (ahre pelicula ya se hacia esto)"
+                    </li>
+                    <li class="p-4 rounded-lg shadow-lg" id="surprise-item">
+                        "Prometo <span id="reveal-surprise">[Click para la sorpresa...]</span>
+                        <span id="surprise-text" class="hidden font-bold text-pink-200">(ACABARTE EN TODA LA CONCHA AMOR Y VER COMO SE DESBORDA TODA LA LECHE DE AHI ADENTRO).</span>"
+                    </li>
+                </ul>
+            </section>
+
+         <!-- Sección 5: Corazones y Hilo Rojo -->
         <section class="my-20 py-20">
             <div class="heart-container">
                 
@@ -617,335 +439,155 @@
                 </div>
             </div>
         </section>
+                
+                <!-- Efecto de Flash -->
+                <div id="flash-effect"></div>
+            </section>
 
-        <!-- Sección 6: Animación Espacial (SECCIÓN MODIFICADA) -->
-        <section class="my-20 max-w-4xl mx-auto text-center p-6">
-            <h2 class="font-cursive text-5xl font-bold mb-10" style="text-shadow: 0 0 15px #3498db;">Dale click a cada planeta o estrella</h2>
-            
-            <div id="space-container">
-                <!-- Estrellas de fondo para esta sección (CSS) -->
-                <div id="sun"></div>
-                <div id="earth-orbit">
-                    <div id="earth">
-                        <!-- La luna DEBE estar dentro de la tierra para orbitarla -->
-                        <div id="moon-orbit">
-                            <div id="moon"></div>
-                        </div>
+            <!-- Sección 6: Espacio Interactivo -->
+            <section>
+                <h2 class="mb-6 text-3xl font-bold text-center text-blue-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #5865f2;">Dale click a cada planeta o estrella</h2>
+                
+                <div id="space-container" class="w-full mx-auto">
+                    <!-- Cuerpos Celestes -->
+                    <div id="sun" class="celestial-body" data-info="sun"></div>
+                    <div id="earth" class="celestial-body" data-info="earth">
+                        <!-- Hilo Rojo en la Tierra -->
+                        <svg id="earth-thread-svg" viewBox="0 0 60 60">
+                            <path id="earth-thread-path" d="M 15 30 C 25 10, 35 10, 45 30" />
+                        </svg>
+                    </div>
+                    <div id="moon" class="celestial-body" data-info="moon"></div>
+
+                    <!-- Caja de Información -->
+                    <div id="info-box">
+                        <!-- El contenido se inyectará con JS -->
                     </div>
                 </div>
-                
-                <!-- NUEVO: Estrellas Interactivas -->
-                <div class="interactive-star" style="top: 15%; left: 20%;" data-text="te amo"></div>
-                <div class="interactive-star" style="top: 30%; left: 80%; animation-delay: 1s;" data-text="sos hermosa"></div>
-                <div class="interactive-star" style="top: 70%; left: 10%; animation-delay: 0.5s;" data-text="te adoro"></div>
-                <div class="interactive-star" style="top: 85%; left: 60%; animation-delay: 2s;" data-text="sos mi bebe"></div>
-                
-                <!-- Cinturón de Asteroides y Cometa -->
-                <div id="asteroid-orbit"></div>
-                <div id="comet"></div>
-            </div>
-            <p class="mt-8 text-2xl text-gray-300">"Seguramente estemos conectados"</p>
-        </section>
+            </section>
 
-        <!-- Footer -->
-        <footer class="text-center py-10 mt-20 border-t border-gray-700">
-            <p class="text-gray-500">
-                Pagina creada por 33DiscosDuros para mi bebe ansiosa sofi ♥
-            </p>
-        </footer>
-    </div>
-
-    <!-- Modal de Información Espacial -->
-    <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 backdrop-blur-md flex items-center justify-center z-50 p-4" onclick="closeModal()">
-        <div id="info-content" class="bg-gray-800 p-8 rounded-lg shadow-2xl max-w-lg w-full text-center border border-gray-600" onclick="event.stopPropagation()">
-            <h3 id="info-title" class="font-cursive text-4xl mb-4"></h3>
-            <p id="info-text" class="text-lg"></p>
-            <button onclick="closeModal()" class="mt-6 bg-pink-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-pink-600 transition-colors">
-                Cerrar
-            </button>
         </div>
-    </div>
+    </main>
 
-    <!-- Script principal -->
+    <!-- Footer -->
+    <footer class="relative z-10 w-full p-8 mt-16 text-center text-gray-400 border-t border-gray-700">
+        Pagina creada por 33DiscosDuros para mi bebe ansiosa sofi
+    </footer>
+
+    <!-- JavaScript para Interacciones -->
     <script>
-        // --- Script para Pantalla de Carga ---
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader-overlay');
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                setTimeout(() => {
-                    loader.remove();
-                }, 1000); 
-            }, 3500); // 3.5 segundos total
-        });
+        document.addEventListener('DOMContentLoaded', () => {
 
-
-        // --- Script para Canvas de Estrellas y Cometas ---
-        const canvas = document.getElementById('starfield');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        let stars = [];
-        let comets = [];
-
-        // Crear estrellas
-        for (let i = 0; i < 300; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.5,
-                opacity: Math.random()
+            // --- Sección 3: Efecto de Pulso en Lista de Amor ---
+            const loveItems = document.querySelectorAll('.love-list li');
+            loveItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Añade la clase para la animación
+                    item.classList.add('pulse-effect');
+                    // Quita la clase después de que termine la animación
+                    setTimeout(() => {
+                        item.classList.remove('pulse-effect');
+                    }, 500);
+                });
             });
-        }
 
-        // Clase Cometa
-        class Comet {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = 0;
-                this.radius = Math.random() * 2 + 1;
-                this.speed = Math.random() * 3 + 2;
-                this.length = Math.random() * 150 + 50;
-                this.angle = Math.PI / 4;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                const endX = this.x - this.length * Math.cos(this.angle);
-                const endY = this.y - this.length * Math.sin(this.angle);
-                const gradient = ctx.createLinearGradient(this.x, this.y, endX, endY);
-                gradient.addColorStop(0, `rgba(255, 255, 255, 0.8)`);
-                gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = this.radius;
-                ctx.lineTo(endX, endY);
-                ctx.stroke();
-            }
-            update() {
-                this.x += this.speed * Math.cos(this.angle);
-                this.y += this.speed * Math.sin(this.angle);
-                if (this.y > canvas.height + this.length || this.x > canvas.width + this.length) {
-                    this.x = Math.random() * canvas.width;
-                    this.y = -this.length;
-                    this.speed = Math.random() * 3 + 2;
-                    this.length = Math.random() * 150 + 50;
-                }
-            }
-        }
-
-        // Crear cometas
-        for (let i = 0; i < 3; i++) {
-            comets.push(new Comet());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-            stars.forEach(star => {
-                ctx.globalAlpha = star.opacity;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fill();
-                star.y += 0.1;
-                if (star.y > canvas.height) {
-                    star.y = 0;
-                    star.x = Math.random() * canvas.width;
-                }
-            });
-            ctx.globalAlpha = 1;
-            comets.forEach(comet => {
-                comet.draw();
-                comet.update();
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // --- Script para Sección 3: "Me Encanta" ---
-        function showHeart(event) {
-            const heart = document.createElement('span');
-            heart.innerHTML = '♥';
-            heart.className = 'floating-heart';
-            document.body.appendChild(heart);
-            heart.style.left = `${event.clientX}px`;
-            heart.style.top = `${event.clientY}px`;
-            const target = event.currentTarget;
-            target.style.transform = 'scale(1.05)';
-            target.style.color = '#ff89b4';
-            setTimeout(() => {
-                heart.remove();
-                target.style.transform = 'scale(1)';
-                target.style.color = '';
-            }, 1500);
-        }
-
-        // --- Script para Sección 4: "Promesas" ---
-        function showPromiseEffect(event) {
-            const star = document.createElement('span');
-            star.innerHTML = '✨';
-            star.className = 'floating-heart';
-            star.style.color = '#fffb8e';
-            star.style.textShadow = '0 0 10px #fffb8e';
-            document.body.appendChild(star);
-            star.style.left = `${event.clientX}px`;
-            star.style.top = `${event.clientY}px`;
-            const target = event.currentTarget;
-            target.style.transform = 'scale(1.03)';
-            target.style.color = '#ffc8dd';
-            target.style.textShadow = '0 0 8px #ffc8dd';
-            setTimeout(() => {
-                star.remove();
-                target.style.transform = 'scale(1)';
-                target.style.color = '';
-                target.style.textShadow = '';
-            }, 1500);
-        }
-
-        // --- Script para Sección 4: "Promesa Oculta" ---
-        function revealPromise(element) {
-            element.classList.remove('hidden-promise');
-            element.classList.add('revealed');
-            element.onclick = null; 
-            element.title = "¡Revelado!";
-        }
-        
-        // --- Script para Sección 5: Botón de Amarre ---
-        const amarreBtn = document.getElementById('amarre-btn');
-        const heartThread = document.querySelector('.red-thread');
-        const hearts = document.querySelectorAll('.css-heart');
-        const heartContainer = document.querySelector('.heart-container');
-        
-        amarreBtn.addEventListener('click', () => {
-            amarreBtn.disabled = true;
-            amarreBtn.textContent = 'Conectando...';
-            heartThread.classList.add('connected');
+            // --- Sección 4: Revelar Sorpresa ---
+            const revealBtn = document.getElementById('reveal-surprise');
+            const surpriseText = document.getElementById('surprise-text');
             
-            setTimeout(() => {
-                hearts.forEach(h => h.classList.add('glowing'));
-                heartContainer.classList.add('destiny-flash');
-                amarreBtn.textContent = '¡Conectados por siempre!';
-                amarreBtn.style.backgroundColor = '#e11d48';
-                amarreBtn.style.boxShadow = '0 0 20px #e11d48';
-                setTimeout(() => {
-                    heartContainer.classList.remove('destiny-flash');
-                }, 1000);
-            }, 3000); 
-        });
-
-
-        // --- Script para Sección 6: "Animación Espacial" (MODIFICADO) ---
-        const sun = document.getElementById('sun');
-        const earth = document.getElementById('earth');
-        const moon = document.getElementById('moon');
-        const infoModal = document.getElementById('info-modal');
-        const infoTitle = document.getElementById('info-title');
-        const infoText = document.getElementById('info-text');
-
-        // Textos de clic MODIFICADOS
-        const planetInfo = {
-            sun: {
-                title: "Sol",
-                text: "wikedjnwjieudjwjwkdidjwbdbjduejebdjeje"
-            },
-            earth: {
-                title: "Tierra",
-                text: "Planeta donde el amor de sofi y lauty es real"
-            },
-            moon: {
-                title: "Luna",
-                text: "El satélite natural de la Tierra. Inspira poetas y amantes. Refleja la luz del sol, así como vos reflejas toda la belleza del mundo."
+            if(revealBtn) {
+                revealBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Evita que el clic también active el pulso del 'li'
+                    surpriseText.classList.remove('hidden');
+                    revealBtn.textContent = "🥵"; // Cambia el texto del botón
+                });
             }
-        };
+            // También agrega el efecto de pulso a la lista de promesas
+            const promiseItems = document.querySelectorAll('.promise-list li');
+            promiseItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.add('pulse-effect');
+                    setTimeout(() => {
+                        item.classList.remove('pulse-effect');
+                    }, 500);
+                });
+            });
 
-        function showInfo(planetKey) {
-            const info = planetInfo[planetKey];
-            infoTitle.textContent = info.title;
-            infoText.textContent = info.text;
-            infoModal.classList.remove('hidden');
-        }
 
-        function closeModal() {
-            infoModal.classList.add('hidden');
-        }
+            // --- Sección 5: Conexión de Corazones (LÓGICA ACTUALIZADA) ---
+            const connectBtn = document.getElementById('connect-hearts-btn');
+            const redThread = document.getElementById('red-thread');
+            const heart1 = document.getElementById('heart1');
+            const heart2 = document.getElementById('heart2');
+            const flashEffect = document.getElementById('flash-effect');
 
-        sun.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showInfo('sun');
-        });
-        earth.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showInfo('earth');
-        });
-        moon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showInfo('moon');
-        });
-        
-        // --- NUEVO: Script para Estrellas Interactivas ---
-        document.querySelectorAll('.interactive-star').forEach(star => {
-            star.addEventListener('click', (e) => {
-                e.stopPropagation(); // Evita que se abra el modal del planeta
-                const text = star.getAttribute('data-text');
-                
-                const floatingText = document.createElement('span');
-                floatingText.innerHTML = text;
-                floatingText.className = 'floating-text'; // Usa la clase CSS
-                document.body.appendChild(floatingText);
-                
-                // Posiciona el texto en el clic
-                floatingText.style.left = `${e.clientX}px`;
-                floatingText.style.top = `${e.clientY}px`;
-                
-                // Remueve el texto después de la animación (2s)
+            connectBtn.addEventListener('click', () => {
+                const animationDuration = 3000; // 3 segundos (3000ms)
+
+                // 1. Animar el hilo rojo
+                // Detecta si es móvil (columna) o desktop (fila)
+                if (window.innerWidth < 768) {
+                    redThread.style.transition = `height ${animationDuration / 1000}s ease-out`;
+                    redThread.style.height = '64px'; // 64px es el gap-8 (h-4 + gap-8)
+                } else {
+                    redThread.style.transition = `width ${animationDuration / 1000}s ease-out`;
+                    redThread.style.width = '16.666667%'; // Es el w-2/12
+                }
+
+                // 2. Activar el flash y el brillo DESPUÉS de que el hilo se conecte
                 setTimeout(() => {
-                    floatingText.remove();
-                }, 2000); 
+                    flashEffect.classList.add('flash');
+                    // 3. Añadir brillo a los corazones
+                    heart1.classList.add('glow');
+                    heart2.classList.add('glow');
+                }, animationDuration); // Se activa JUSTO a los 3 segundos
+
+                // 4. Limpiar el flash (1 segundo después de que empiece)
+                setTimeout(() => {
+                    flashEffect.classList.remove('flash');
+                }, animationDuration + 1000); // Se limpia a los 4 segundos
+                
+                // Desactiva el botón después de usarlo
+                connectBtn.textContent = "Destino Cumplido";
+                connectBtn.disabled = true;
+            });
+
+
+            // --- Sección 6: Espacio Interactivo ---
+            const spaceContainer = document.getElementById('space-container');
+            const infoBox = document.getElementById('info-box');
+            
+            const infoData = {
+                sun: {
+                    title: "SOL",
+                    text: "Una estrella gigante y ardiente en el centro de nuestro sistema. Representa la energía y la pasión de nuestro amor."
+                },
+                earth: {
+                    title: "TIERRA",
+                    text: "Lugar donde vive el amor destinado de lautaro y sofia totoricolin. <br><strong class='mt-2 d-block'>Seguramente estemos conectados.</strong>"
+                },
+                moon: {
+                    title: "LUNA",
+                    text: "El satélite de la Tierra. Representa el misterio, la intuición y los sueños que compartimos."
+                }
+            };
+
+            spaceContainer.addEventListener('click', (e) => {
+                const targetBody = e.target.closest('.celestial-body');
+                
+                if (targetBody) {
+                    const infoKey = targetBody.dataset.info;
+                    if (infoData[infoKey]) {
+                        infoBox.innerHTML = `<h3>${infoData[infoKey].title}</h3><p>${infoData[infoKey].text}</p>`;
+                        infoBox.classList.add('visible');
+                    }
+                } else {
+                    // Si se hace clic fuera de un planeta, se oculta la caja
+                    infoBox.classList.remove('visible');
+                }
             });
         });
-        
-        // Estrellas de fondo para la sección del espacio
-        const spaceContainer = document.getElementById('space-container');
-        for (let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.style.position = 'absolute';
-            star.style.width = `${Math.random() * 2 + 1}px`;
-            star.style.height = star.style.width;
-            star.style.backgroundColor = 'white';
-            star.style.borderRadius = '50%';
-            star.style.opacity = Math.random();
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.animation = `twinkle ${Math.random() * 5 + 2}s linear infinite`;
-            spaceContainer.appendChild(star);
-        }
-        
-        // Añadir asteroides
-        const asteroidOrbit = document.getElementById('asteroid-orbit');
-        for (let i = 0; i < 40; i++) {
-            const asteroid = document.createElement('div');
-            asteroid.className = 'asteroid';
-            const angle = Math.random() * 2 * Math.PI;
-            const radius = 250;
-            const x = (radius * Math.cos(angle)) + radius - 1.5;
-            const y = (radius * Math.sin(angle)) + radius - 1.5;
-            asteroid.style.left = `${x}px`;
-            asteroid.style.top = `${y}px`;
-            asteroid.style.opacity = Math.random() * 0.7 + 0.3;
-            asteroidOrbit.appendChild(asteroid);
-        }
-        
-        // Añadir keyframe para el parpadeo de estrellas
-        const styleSheet = document.createElement("style");
-        styleSheet.type = "text/css";
-        styleSheet.innerText = `@keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }`;
-        document.head.appendChild(styleSheet);
-        
     </script>
+
 </body>
 </html>
