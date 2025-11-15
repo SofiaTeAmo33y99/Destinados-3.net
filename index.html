@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Mi Princesita Sofi</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Carga de la fuente Inter -->
@@ -18,9 +19,12 @@
             font-family: 'Inter', sans-serif;
             /* Evita el desbordamiento horizontal por las animaciones */
             overflow-x: hidden;
+            /* Oculta la página principal hasta que el preloader termine */
+            opacity: 0;
+            transition: opacity 0.5s;
         }
 
-        /* --- Sección 1: Fondo de Universo y Cometas --- */
+        /* --- Estilos Generales y Cometas (Sección 1) --- */
         #universe-bg {
             position: fixed;
             top: 0;
@@ -32,6 +36,7 @@
         }
 
         #stars {
+            /* ... (Estilos de estrellas y cometas, igual que antes) ... */
             position: absolute;
             top: 0;
             left: 0;
@@ -90,18 +95,18 @@
         .comet:nth-child(4) { top: 50%; left: 150%; animation-delay: 7s; }
         .comet:nth-child(5) { top: 0%; left: 110%; animation-delay: 9s; }
 
-        /* --- Sección 2: Carta Astral --- */
+
+        /* --- Sección 2: Carta Astral (Igual que antes) --- */
         .astral-card {
-            font-family: 'Special Elite', cursive; /* Fuente tipo máquina de escribir */
-            background: #fdf5e6; /* Color pergamino */
-            color: #4a2c2a; /* Texto marrón oscuro */
-            border: 2px solid #8a4d2f; /* Borde marrón */
+            font-family: 'Special Elite', cursive;
+            background: #fdf5e6;
+            color: #4a2c2a;
+            border: 2px solid #8a4d2f;
             border-radius: 10px;
-            /* Sombra para efecto "quemado" y de relieve */
             box-shadow: 
-                0 0 15px 5px rgba(0, 0, 0, 0.4), /* Sombra exterior */
-                inset 0 0 25px 10px rgba(165, 42, 42, 0.3), /* Sombra interior "quemada" */
-                inset 0 0 50px 20px rgba(245, 222, 179, 0.5); /* Brillo interior de pergamino */
+                0 0 15px 5px rgba(0, 0, 0, 0.4),
+                inset 0 0 25px 10px rgba(165, 42, 42, 0.3),
+                inset 0 0 50px 20px rgba(245, 222, 179, 0.5);
             transition: all 0.3s ease;
         }
         .astral-card:hover {
@@ -112,10 +117,10 @@
                 inset 0 0 60px 25px rgba(245, 222, 179, 0.6);
         }
 
-        /* --- Sección 3 y 4: Listas de Amor y Promesas --- */
+        /* --- Sección 3 y 4: Listas (Igual que antes) --- */
         .love-list li, .promise-list li {
-            background: rgba(255, 105, 180, 0.1); /* Fondo rosa translúcido */
-            border: 1px solid rgba(255, 105, 180, 0.7); /* Borde rosa */
+            background: rgba(255, 105, 180, 0.1);
+            border: 1px solid rgba(255, 105, 180, 0.7);
             backdrop-filter: blur(5px);
             transition: all 0.3s ease;
             cursor: pointer;
@@ -125,53 +130,173 @@
             box-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4;
             background: rgba(255, 105, 180, 0.2);
         }
-
-        /* Animación de pulso al hacer clic */
-        .pulse-effect {
-            animation: pulse-pink 0.5s ease;
-        }
+        .pulse-effect { animation: pulse-pink 0.5s ease; }
         @keyframes pulse-pink {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); box-shadow: 0 0 25px 10px #ff69b4; }
             100% { transform: scale(1); }
         }
 
-        /* Estilo para el botón de revelar sorpresa */
-        #reveal-surprise {
-            cursor: pointer;
-            font-style: italic;
-            color: #f8bbd0;
-            text-decoration: underline;
-            transition: all 0.2s;
+        /* --- Estilos para el PRELOADER --- */
+        #preloader {
+            transition: opacity 1s ease-out;
+            z-index: 9999;
         }
-        #reveal-surprise:hover {
-            color: #fff;
-            text-shadow: 0 0 10px #ff69b4;
+        .preloader-heart-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
-        /* --- Sección 5: Dos Corazones --- */
-        .heart-box {
-            font-family: 'Dancing Script', cursive; /* Fuente romántica */
-            font-size: 1.75rem; /* Un poco más grande para los nombres */
-            color: #ffcdd2; /* Texto rosa pálido */
-            background: rgba(226, 43, 75, 0.2);
-            border: 2px solid #e22b4b;
-            backdrop-filter: blur(5px);
-            text-shadow: 0 0 10px #e22b4b;
-            transition: all 0.5s ease; /* Transición para el brillo */
+        /* Estilo simple para el corazón en la pantalla de carga */
+        .loader-heart {
+            width: 100px;
+            height: 100px;
+            background: #e22b4b;
+            position: relative;
+            transform: rotate(-45deg);
+            margin: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px #e22b4b, 0 0 30px #ff0000;
         }
-        
-        /* Hilo Rojo */
-        #red-thread {
+        .loader-heart::before,
+        .loader-heart::after {
+            content: "";
+            width: 100px;
+            height: 100px;
+            background: #e22b4b;
+            border-radius: 50%;
             position: absolute;
-            height: 4px;
-            background: linear-gradient(90deg, #ff0000, #ff4500, #ff0000);
-            box-shadow: 0 0 10px 2px #ff0000;
-            width: 0;
-            /* La transición se aplica desde JS */
+        }
+        .loader-heart::before {
+            top: -50px;
+            left: 0;
+        }
+        .loader-heart::after {
+            left: 50px;
+            top: 0;
+        }
+        .loader-text {
+            transform: rotate(45deg);
             z-index: 10;
+            color: white;
+            font-size: 1.5rem;
+            font-family: 'Dancing Script', cursive;
         }
 
+        #loader-thread {
+            width: 4px; /* Vertical thread */
+            height: 0;
+            background: linear-gradient(0deg, #ff0000, #ff4500, #ff0000);
+            box-shadow: 0 0 5px #ff0000;
+            transition: height 10s linear; /* 10s for the whole duration */
+            position: absolute;
+            top: 150px; /* Adjust based on heart size */
+        }
+        .animate-thread {
+            height: 100px !important; /* Final height of the thread */
+        }
+        
+        /* --- Sección 5: Hilo Rojo (NUEVOS ESTILOS) --- */
+        .heart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+        }
+
+        #amarre-btn {
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(145deg, #e22b4b, #ff4d6d);
+            border-radius: 9999px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(255, 0, 50, 0.5);
+            transition: all 0.3s ease;
+        }
+        #amarre-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 0, 50, 0.7);
+        }
+
+        .css-heart {
+            width: 150px;
+            height: 150px;
+            background: #e22b4b;
+            position: relative;
+            transform: rotate(-45deg);
+            margin: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+        .css-heart::before,
+        .css-heart::after {
+            content: "";
+            width: 150px;
+            height: 150px;
+            background: #e22b4b;
+            border-radius: 50%;
+            position: absolute;
+            transition: all 0.5s ease-in-out;
+        }
+        .css-heart::before { top: -75px; left: 0; }
+        .css-heart::after { left: 75px; top: 0; }
+
+        .heart-text {
+            transform: rotate(45deg);
+            z-index: 10;
+            color: white;
+            font-size: 1.5rem;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 5px black;
+        }
+
+        .red-thread {
+            width: 4px;
+            height: 0; /* Initial height for animation */
+            background: linear-gradient(0deg, #ff0000, #ff4500, #ff0000);
+            box-shadow: 0 0 10px #ff0000;
+            transition: height 3s ease-in-out;
+        }
+        .thread-connected {
+            height: 150px; /* Final height after click */
+        }
+
+        .mini-heart {
+            position: absolute;
+            color: #fff;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: mini-heart-float 4s infinite ease-out;
+            text-shadow: 0 0 5px #ff0000;
+        }
+        @keyframes mini-heart-float {
+            0% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-40px) scale(0.8); }
+        }
+
+        /* Efectos de Destino Cumplido */
+        .destiny-glow {
+            animation: heart-glow 2s infinite alternate;
+        }
+        @keyframes heart-glow {
+            from {
+                box-shadow: 0 0 15px #e22b4b, 0 0 30px #ff0000;
+            }
+            to {
+                transform: rotate(-45deg) scale(1.05);
+                box-shadow: 0 0 30px 15px #ff1a40, 0 0 60px 25px #e22b4a;
+            }
+        }
+        
         /* Flash de luz */
         #flash-effect {
             position: fixed;
@@ -193,23 +318,7 @@
             100% { opacity: 0; }
         }
 
-        /* Brillo de corazones */
-        .glow {
-            animation: heart-glow 2s infinite alternate;
-        }
-        @keyframes heart-glow {
-            from {
-                box-shadow: 0 0 10px #e22b4b, 0 0 20px #e22b4b;
-                text-shadow: 0 0 15px #ffcdd2;
-            }
-            to {
-                transform: scale(1.05); /* Ligeramente más grande al brillar */
-                box-shadow: 0 0 20px 10px #ff1a40, 0 0 40px 15px #e22b4a;
-                text-shadow: 0 0 25px #fff;
-            }
-        }
-        
-        /* --- Sección 6: Espacio Interactivo --- */
+        /* --- Estilos para la sección de Planetas (Sección 6, igual que antes) --- */
         #space-container {
             position: relative;
             height: 500px;
@@ -219,7 +328,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
         }
-
+        /* ... (Resto de estilos de planetas, sol, luna, etc.) ... */
         .celestial-body {
             position: absolute;
             border-radius: 50%;
@@ -230,7 +339,6 @@
             transform: scale(1.1);
             filter: brightness(1.2);
         }
-
         #sun {
             width: 120px;
             height: 120px;
@@ -244,7 +352,6 @@
             from { box-shadow: 0 0 30px 10px #f9a602, 0 0 50px 20px rgba(240, 140, 0, 0.5); }
             to { box-shadow: 0 0 40px 15px #f9a602, 0 0 60px 25px rgba(240, 140, 0, 0.7); }
         }
-
         #earth {
             width: 90px;
             height: 90px;
@@ -252,12 +359,10 @@
             box-shadow: 0 0 20px 5px #6b93d6, inset 0 0 10px rgba(255,255,255,0.3);
             top: 200px;
             right: 100px;
-            /* Contenedor para el hilo */
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        /* "Continente" verde */
         #earth::after {
             content: '';
             position: absolute;
@@ -268,8 +373,6 @@
             opacity: 0.7;
             transform: rotate(20deg);
         }
-
-        /* Hilo rojo en la Tierra */
         #earth-thread-svg {
             position: absolute;
             width: 100%;
@@ -290,7 +393,6 @@
                 stroke-dashoffset: 0;
             }
         }
-
         #moon {
             width: 40px;
             height: 40px;
@@ -299,7 +401,6 @@
             top: 350px;
             left: 150px;
         }
-
         #info-box {
             position: absolute;
             bottom: 20px;
@@ -330,6 +431,32 @@
 </head>
 <body class="text-white">
 
+    <!-- --- PANTALLA DE CARGA (PRELOADER) --- -->
+    <div id="preloader" class="fixed inset-0 flex flex-col items-center justify-center bg-[#0f0c29] text-white">
+        <div class="preloader-heart-wrapper relative">
+            <h2 class="text-4xl text-pink-300 mb-8" style="font-family: 'Dancing Script', cursive;">Cargando El Destino</h2>
+            
+            <!-- Corazón Lauty -->
+            <div class="loader-heart">
+                <span class="loader-text">Lauty³³</span>
+            </div>
+            
+            <!-- Hilo Rojo (Inicialmente invisible/cero height) -->
+            <div id="loader-thread" style="left: calc(50% - 2px);" class="absolute"></div> 
+            
+            <!-- Corazón Sofi -->
+            <div class="loader-heart mt-0">
+                <span class="loader-text">Sofi⁹⁹</span>
+            </div>
+        </div>
+
+        <p id="theory-text" class="mt-8 max-w-lg text-center font-serif italic text-pink-300 px-4 opacity-0 transition-opacity duration-1000">
+            La leyenda oriental del 'Hilo Rojo del Destino' afirma que dos personas destinadas a estar juntas están unidas por un hilo rojo invisible, atado en el meñique. No importa el tiempo, el lugar o las circunstancias, este hilo nunca se romperá y unirá a quienes están predestinados a encontrarse.
+        </p>
+        <p class="mt-4 text-sm text-gray-400">Paciencia mi amor... El Destino tarda un poco en cargarse. ;)</p>
+    </div>
+    <!-- --------------------------------------- -->
+
     <!-- Contenedor del Fondo de Universo y Cometas -->
     <div id="universe-bg">
         <div id="stars"></div>
@@ -340,151 +467,168 @@
         <div class="comet"></div>
     </div>
 
-    <!-- Contenido Principal -->
-    <main class="relative z-10 flex flex-col items-center w-full min-h-screen px-4 py-12 md:px-8">
+    <!-- Contenido Principal (Se oculta y muestra con JS) -->
+    <div id="main-content" class="opacity-0 transition-opacity duration-500">
+        <main class="relative z-10 flex flex-col items-center w-full min-h-screen px-4 py-12 md:px-8">
 
-        <!-- TÍTULO AGREGADO -->
-        <h1 class="mb-16 text-5xl font-bold text-center text-pink-200" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 15px #ff69b4, 0 0 25px #ff69b4;">
-            Para mi princesita hermosa Sofi :3
-        </h1>
+            <!-- TÍTULO PRINCIPAL -->
+            <h1 class="mb-16 text-5xl font-bold text-center text-pink-200" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 15px #ff69b4, 0 0 25px #ff69b4;">
+                Para mi princesita tiquitita hermosa Sofi :3
+            </h1>
 
-        <div class="w-full max-w-4xl mx-auto space-y-24">
+            <div class="w-full max-w-4xl mx-auto space-y-24">
 
-            <!-- Sección 2: Foto y Carta Astral -->
-            <section class="flex flex-col items-center gap-8 md:flex-row md:items-start">
-                <!-- Espacio para la Foto -->
-                <div class="w-full md:w-1/2 flex flex-col items-center">
-                    <p class="mb-2 text-lg italic text-pink-200">Para la princesita más hermosa:</p>
-                    <!-- 
-                        ¡HOLA LAUTARO!
-                        Para cambiar la foto, reemplaza la URL en el 'src' de abajo.
-                        Sube tu foto a un sitio como 'imgur.com' y pega el enlace aquí.
-                        He usado un placeholder de 400x400 como ejemplo.
-                    -->
-                    <img 
-                        src="https://placehold.co/400x400/302b63/f8bbd0?text=Tu+Foto+Favorita+Aqui" 
-                        alt="Foto de Sofi"
-                        class="object-cover w-full max-w-sm border-4 border-pink-300 rounded-lg shadow-lg shadow-pink-500/30"
-                        onerror="this.src='https://placehold.co/400x400/302b63/f8bbd0?text=Error+al+cargar+imagen'"
-                    >
-                </div>
+                <!-- Sección 2: Foto y Carta Astral -->
+                <section class="flex flex-col items-center gap-8 md:flex-row md:items-start">
+                    <!-- Espacio para la Foto -->
+                    <div class="w-full md:w-1/2 flex flex-col items-center">
+                        <p class="mb-2 text-lg italic text-pink-200">Para la princesita más hermosa:</p>
+                        <img 
+                            src="https://placehold.co/400x400/302b63/f8bbd0?text=Tu+Foto+Favorita+Aqui" 
+                            alt="Foto de Sofi"
+                            class="object-cover w-full max-w-sm border-4 border-pink-300 rounded-lg shadow-lg shadow-pink-500/30"
+                            onerror="this.src='https://placehold.co/400x400/302b63/f8bbd0?text=Error+al+cargar+imagen'"
+                        >
+                    </div>
 
-                <!-- Carta Astral -->
-                <div class="w-full p-6 md:w-1/2 astral-card">
-                    <h2 class="mb-4 text-2xl font-bold text-center text-amber-900">Un Recordatorio Astral</h2>
-                    <p class="text-lg leading-relaxed">
-                        Esta pagina existe para recordarte, cada dia, Que sos la princesita mas hermosa del mundo y que te amo tal cual como sos y nunca te voy a cambiar, abandonar o tratar mal :3
-                    </p>
-                </div>
-            </section>
+                    <!-- Carta Astral -->
+                    <div class="w-full p-6 md:w-1/2 astral-card">
+                        <h2 class="mb-4 text-2xl font-bold text-center text-amber-900">Un Recordatorio Astral</h2>
+                        <p class="text-lg leading-relaxed">
+                            Esta pagina existe para recordarte, cada dia, Que sos la princesita mas hermosa del mundo y que te amo tal cual como sos y nunca te voy a cambiar, abandonar o tratar mal :3
+                        </p>
+                    </div>
+                </section>
 
-            <!-- Sección 3: Cosas que me Encantan -->
-            <section>
-                <h2 class="mb-6 text-3xl font-bold text-center text-pink-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #ff69b4;">Cosas Que Me Encantan de Vos</h2>
-                <ul class="space-y-4 love-list">
-                    <li class="p-4 rounded-lg shadow-lg">
-                        "Me encanta tu personalidad es lo mas hermoso que tenes (ademas de tus tetas)"
-                    </li>
-                    <li class="p-4 rounded-lg shadow-lg">
-                        "Amo tu caracter, Sos re tierna cuando te enojas por boludeces y aunque no lo creas aveces te hago enojar aproposito sólo para rogarte y decirte muchas veces te amo sin parecer un obsecionado enfermo de la cabeza JAJAJA :3"
-                    </li>
-                    <li class="p-4 rounded-lg shadow-lg">
-                        "Me encanta lo linda que salis cuando otros te sacan fotos, Aunque vos no estes de acuerdo para mi salis mas que perfecta y hermosa gorda hermosa"
-                    </li>
-                </ul>
-            </section>
+                <!-- Sección 3: Cosas que me Encantan -->
+                <section>
+                    <h2 class="mb-6 text-3xl font-bold text-center text-pink-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #ff69b4;">Cosas Que Me Encantan de Vos</h2>
+                    <ul class="space-y-4 love-list">
+                        <li class="p-4 rounded-lg shadow-lg">
+                            "Me encanta tu personalidad es lo mas hermoso que tenes (ademas de tus tetas)"
+                        </li>
+                        <li class="p-4 rounded-lg shadow-lg">
+                            "Amo tu caracter, Sos re tierna cuando te enojas por boludeces y aunque no lo creas aveces te hago enojar aproposito sólo para rogarte y decirte muchas veces te amo sin parecer un obsecionado enfermo de la cabeza JAJAJA :3"
+                        </li>
+                        <li class="p-4 rounded-lg shadow-lg">
+                            "Me encanta lo linda que salis cuando otros te sacan fotos, Aunque vos no estes de acuerdo para mi salis mas que perfecta y hermosa gorda hermosa"
+                        </li>
+                    </ul>
+                </section>
 
-            <!-- Sección 4: Promesas -->
-            <section>
-                <h2 class="mb-6 text-3xl font-bold text-center text-pink-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #ff69b4;">Mis Promesas</h2>
-                <ul class="space-y-4 promise-list">
-                    <li class="p-4 rounded-lg shadow-lg">
-                        "Prometo nunca traicionarte, Sos todo lo que siempre busque en una mujer."
-                    </li>
-                    <li class="p-4 rounded-lg shadow-lg">
-                        "Prometo no ABANDONARTE, Nunca no soy como las mierdas de personas que te abras cruzado en tu vida corazon"
-                    </li>
-                    <li class="p-4 rounded-lg shadow-lg">
-                        "Prometo AMARTE y hacerte feliz hasta que mi corazonzito deje de latir (ahre pelicula ya se hacia esto)"
-                    </li>
-                    <li class="p-4 rounded-lg shadow-lg" id="surprise-item">
-                        "Prometo <span id="reveal-surprise">[Click para la sorpresa...]</span>
-                        <span id="surprise-text" class="hidden font-bold text-pink-200">(ACABARTE EN TODA LA CONCHA AMOR Y VER COMO SE DESBORDA TODA LA LECHE DE AHI ADENTRO).</span>"
-                    </li>
-                </ul>
-            </section>
+                <!-- Sección 4: Promesas -->
+                <section>
+                    <h2 class="mb-6 text-3xl font-bold text-center text-pink-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #ff69b4;">Mis Promesas</h2>
+                    <ul class="space-y-4 promise-list">
+                        <li class="p-4 rounded-lg shadow-lg">
+                            "Prometo nunca traicionarte, Sos todo lo que siempre busque en una mujer."
+                        </li>
+                        <li class="p-4 rounded-lg shadow-lg">
+                            "Prometo no ABANDONARTE, Nunca no soy como las mierdas de personas que te abras cruzado en tu vida corazon"
+                        </li>
+                        <li class="p-4 rounded-lg shadow-lg">
+                            "Prometo AMARTE y hacerte feliz hasta que mi corazonzito deje de latir (ahre pelicula ya se hacia esto)"
+                        </li>
+                        <li class="p-4 rounded-lg shadow-lg" id="surprise-item">
+                            "Prometo <span id="reveal-surprise">[Click para la sorpresa...]</span>
+                            <span id="surprise-text" class="hidden font-bold text-pink-200">ACABARTE EN TODA LA CONCHA AMOR Y VER COMO SE DESBORDA TODA LA LECHE DE AHI ADENTRO.</span>"
+                        </li>
+                    </ul>
+                </section>
 
-         <!-- Sección 5: Corazones y Hilo Rojo -->
-        <section class="my-20 py-20">
-            <div class="heart-container">
-                
-                <button id="amarre-btn" class="mb-12">
-                    Comenzar amarre
-                </button>
+                <!-- Sección 5: Dos Corazones (CÓDIGO REEMPLAZADO POR EL USUARIO) -->
+                <section class="my-20 py-20 flex flex-col items-center">
+                    <h2 class="mb-12 text-3xl font-bold text-center text-red-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #f00;">El Hilo Rojo del Destino</h2>
+                    <div class="heart-container">
+                        
+                        <button id="amarre-btn" class="mb-12">
+                            Comenzar Amarre
+                        </button>
 
-                <!-- Primer Corazón -->
-                <div class="css-heart">
-                    <span class="heart-text p-4">Te Amo Para Siempre</span>
-                </div>
-                
-                <!-- Hilo Rojo -->
-                <div class="red-thread my-6"></div>
-                
-                <!-- Segundo Corazón -->
-                <div class="css-heart">
-                    <span class="heart-text p-4">¿Todavia No Me Crees? ¡Vine Para Quedarme!</span>
-                    <span class="mini-heart" style="top: 30%; left: 20%;">♥</span>
-                    <span class="mini-heart" style="top: 60%; left: 80%; animation-delay: 0.5s;">♥</span>
-                    <span class="mini-heart" style="top: 70%; left: 30%; animation-delay: 1s;">♥</span>
-                </div>
+                        <!-- Primer Corazón -->
+                        <div class="css-heart" id="amare-heart1">
+                            <span class="heart-text p-4">Sofii99</span>
+                        </div>
+                        
+                        <!-- Hilo Rojo -->
+                        <div class="red-thread my-6" id="amare-thread"></div>
+                        
+                        <!-- Segundo Corazón -->
+                        <div class="css-heart" id="amare-heart2">
+                            <span class="heart-text p-4">Lautyy33</span>
+                            <span class="mini-heart" style="top: 30%; left: 20%;">♥</span>
+                            <span class="mini-heart" style="top: 60%; left: 80%; animation-delay: 0.5s;">♥</span>
+                            <span class="mini-heart" style="top: 70%; left: 30%; animation-delay: 1s;">♥</span>
+                        </div>
+                    </div>
+                    <div id="flash-effect"></div>
+                </section>
+                <!-- ------------------------------------------------------------------- -->
+
+                <!-- Sección 6: Espacio Interactivo -->
+                <section>
+                    <h2 class="mb-6 text-3xl font-bold text-center text-blue-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #5865f2;">Dale click a cada planeta o estrella</h2>
+                    
+                    <div id="space-container" class="w-full mx-auto">
+                        <!-- Cuerpos Celestes -->
+                        <div id="sun" class="celestial-body" data-info="sun"></div>
+                        <div id="earth" class="celestial-body" data-info="earth">
+                            <!-- Hilo Rojo en la Tierra -->
+                            <svg id="earth-thread-svg" viewBox="0 0 60 60">
+                                <path id="earth-thread-path" d="M 15 30 C 25 10, 35 10, 45 30" />
+                            </svg>
+                        </div>
+                        <div id="moon" class="celestial-body" data-info="moon"></div>
+
+                        <!-- Caja de Información -->
+                        <div id="info-box">
+                            <!-- El contenido se inyectará con JS -->
+                        </div>
+                    </div>
+                </section>
+
             </div>
-        </section>
-                
-                <!-- Efecto de Flash -->
-                <div id="flash-effect"></div>
-            </section>
+        </main>
 
-            <!-- Sección 6: Espacio Interactivo -->
-            <section>
-                <h2 class="mb-6 text-3xl font-bold text-center text-blue-300" style="font-family: 'Dancing Script', cursive; text-shadow: 0 0 10px #5865f2;">Dale click a cada planeta o estrella</h2>
-                
-                <div id="space-container" class="w-full mx-auto">
-                    <!-- Cuerpos Celestes -->
-                    <div id="sun" class="celestial-body" data-info="sun"></div>
-                    <div id="earth" class="celestial-body" data-info="earth">
-                        <!-- Hilo Rojo en la Tierra -->
-                        <svg id="earth-thread-svg" viewBox="0 0 60 60">
-                            <path id="earth-thread-path" d="M 15 30 C 25 10, 35 10, 45 30" />
-                        </svg>
-                    </div>
-                    <div id="moon" class="celestial-body" data-info="moon"></div>
-
-                    <!-- Caja de Información -->
-                    <div id="info-box">
-                        <!-- El contenido se inyectará con JS -->
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="relative z-10 w-full p-8 mt-16 text-center text-gray-400 border-t border-gray-700">
-        Pagina creada por 33DiscosDuros para mi bebe ansiosa sofi
-    </footer>
+        <!-- Footer -->
+        <footer class="relative z-10 w-full p-8 mt-16 text-center text-gray-400 border-t border-gray-700">
+            Pagina creada por 33DiscosDuros para mi bebe ansiosa sofi
+        </footer>
+    </div>
 
     <!-- JavaScript para Interacciones -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
+            // --- LÓGICA DEL PRELOADER ---
+            const preloader = document.getElementById('preloader');
+            const mainContent = document.getElementById('main-content');
+            const loaderThread = document.getElementById('loader-thread');
+            const theoryText = document.getElementById('theory-text');
+            const loaderDuration = 10000; // 10 segundos
+
+            // 1. Iniciar animación de texto y hilo
+            theoryText.style.opacity = '1';
+            loaderThread.classList.add('animate-thread');
+
+            setTimeout(() => {
+                // 2. Ocultar preloader y mostrar contenido principal
+                preloader.style.opacity = '0';
+                mainContent.style.opacity = '1';
+                
+                // 3. Quitar el preloader del DOM después de la transición
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    document.body.style.opacity = '1'; // Muestra el body completo
+                }, 1000); // 1s de transición
+
+            }, loaderDuration); // 10 segundos
+
             // --- Sección 3: Efecto de Pulso en Lista de Amor ---
             const loveItems = document.querySelectorAll('.love-list li');
             loveItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    // Añade la clase para la animación
                     item.classList.add('pulse-effect');
-                    // Quita la clase después de que termine la animación
                     setTimeout(() => {
                         item.classList.remove('pulse-effect');
                     }, 500);
@@ -497,12 +641,11 @@
             
             if(revealBtn) {
                 revealBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Evita que el clic también active el pulso del 'li'
+                    e.stopPropagation();
                     surpriseText.classList.remove('hidden');
-                    revealBtn.textContent = "🥵"; // Cambia el texto del botón
+                    revealBtn.textContent = "🥵";
                 });
             }
-            // También agrega el efecto de pulso a la lista de promesas
             const promiseItems = document.querySelectorAll('.promise-list li');
             promiseItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -514,42 +657,35 @@
             });
 
 
-            // --- Sección 5: Conexión de Corazones (LÓGICA ACTUALIZADA) ---
-            const connectBtn = document.getElementById('connect-hearts-btn');
-            const redThread = document.getElementById('red-thread');
-            const heart1 = document.getElementById('heart1');
-            const heart2 = document.getElementById('heart2');
+            // --- Sección 5: Amarre de Corazones (NUEVA LÓGICA) ---
+            const amarreBtn = document.getElementById('amarre-btn');
+            const amareThread = document.getElementById('amare-thread');
+            const amareHeart1 = document.getElementById('amare-heart1');
+            const amareHeart2 = document.getElementById('amare-heart2');
             const flashEffect = document.getElementById('flash-effect');
 
-            connectBtn.addEventListener('click', () => {
-                const animationDuration = 3000; // 3 segundos (3000ms)
+            amarreBtn.addEventListener('click', () => {
+                const animationDuration = 3000; // 3 segundos para el hilo
 
                 // 1. Animar el hilo rojo
-                // Detecta si es móvil (columna) o desktop (fila)
-                if (window.innerWidth < 768) {
-                    redThread.style.transition = `height ${animationDuration / 1000}s ease-out`;
-                    redThread.style.height = '64px'; // 64px es el gap-8 (h-4 + gap-8)
-                } else {
-                    redThread.style.transition = `width ${animationDuration / 1000}s ease-out`;
-                    redThread.style.width = '16.666667%'; // Es el w-2/12
-                }
+                amareThread.classList.add('thread-connected');
+                amarreBtn.textContent = "¡Destino Cumplido!";
+                amarreBtn.disabled = true;
 
                 // 2. Activar el flash y el brillo DESPUÉS de que el hilo se conecte
                 setTimeout(() => {
                     flashEffect.classList.add('flash');
+                    
                     // 3. Añadir brillo a los corazones
-                    heart1.classList.add('glow');
-                    heart2.classList.add('glow');
-                }, animationDuration); // Se activa JUSTO a los 3 segundos
+                    amareHeart1.classList.add('destiny-glow');
+                    amareHeart2.classList.add('destiny-glow');
 
-                // 4. Limpiar el flash (1 segundo después de que empiece)
-                setTimeout(() => {
-                    flashEffect.classList.remove('flash');
-                }, animationDuration + 1000); // Se limpia a los 4 segundos
-                
-                // Desactiva el botón después de usarlo
-                connectBtn.textContent = "Destino Cumplido";
-                connectBtn.disabled = true;
+                    // 4. Limpiar el flash (1 segundo después de que empiece)
+                    setTimeout(() => {
+                        flashEffect.classList.remove('flash');
+                    }, 1000); 
+
+                }, animationDuration); // Se activa JUSTO a los 3 segundos
             });
 
 
@@ -582,7 +718,6 @@
                         infoBox.classList.add('visible');
                     }
                 } else {
-                    // Si se hace clic fuera de un planeta, se oculta la caja
                     infoBox.classList.remove('visible');
                 }
             });
@@ -591,3 +726,5 @@
 
 </body>
 </html>
+
+
